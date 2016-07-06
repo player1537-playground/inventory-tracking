@@ -1,0 +1,18 @@
+<script type="text/html" id="App-template">
+    <div>
+        <p>{{ message }}</p>
+        <input type="text" v-model="message">
+    </div>
+</script>
+
+<script>
+ vue('App', function({}) {
+     return {
+         data() {
+             return {
+                 message: 'Initial',
+             };
+         },
+     };
+ });
+</script>

@@ -1,0 +1,11 @@
+<script>
+ function vue(name, fn) {
+     module(function(exports, scope) {
+         var options = fn(scope);
+         options.name = name;
+         options.template = '#' + name + '-template';
+
+         exports[name] = Vue.extend(options);
+     });
+ }
+</script>

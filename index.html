@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<title>Testing</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.indigo-pink.min.css">
+<body>
+  <app></app>
+  <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+  <script src="https://vuejs.org/js/vue.js"></script>
+  <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+<script>
+ function ProxyMaker(i=0) {
+     return new Proxy({}, {
+         get(target, name) {
+             if (name !== '__proto__' && name !== 'splice') {
+                 if (!target.hasOwnProperty(name) && i < 10) {
+                     target[name] = ProxyMaker(i + 1);
+                 }
+             }
+             return target[name];
+         },
+         set(target, name, value) {
+             target[name] = value;
+         },
+     });
+ }
+
+ _module = ProxyMaker();
+
+ function module(fn) {
+     var exports = {};
+     fn(exports, _module);
+
+     copy(_module, exports);
+
+     function copy(target, source) {
+         for (var key in source) {
+             if (!source.hasOwnProperty(key)) {
+                 continue;
+             }
+
+             if (typeof source[key] === 'object') {
+                 copy(target[key], source[key]);
+             } else {
+                 target[key] = source[key];
+             }
+         }
+     }
+ }
+</script>
+<script>
+ function vue(name, fn) {
+     module(function(exports, scope) {
+         var options = fn(scope);
+         options.name = name;
+         options.template = '#' + name + '-template';
+
+         exports[name] = Vue.extend(options);
+     });
+ }
+</script>
+<script>
+  // Initialize Firebase
+  var config = {
+  apiKey: "AIzaSyBL22GcJuoLJEqDEGkngrrflv2TPFghZE4",
+  authDomain: "inventory-99296.firebaseapp.com",
+  databaseURL: "https://inventory-99296.firebaseio.com",
+  storageBucket: "",
+  };
+  firebase.initializeApp(config);
+</script>
+<script type="text/html" id="App-template">
+    <div>
+        <p>{{ message }}</p>
+        <input type="text" v-model="message">
+    </div>
+</script>
+
+<script>
+ vue('App', function({}) {
+     return {
+         data() {
+             return {
+                 message: 'Initial',
+             };
+         },
+     };
+ });
+</script>
+<script>
+ module(function(exports, { App }) {
+     new Vue({
+         el: 'body',
+         components: {
+             App,
+         },
+     });
+ });
+</script>
+<!DOCTYPE html>
+<title>Testing</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.indigo-pink.min.css">
+<body>
+  <script src="https://www.gstatic.com/firebasejs/3.1.0/firebase.js"></script>
+  <script src="https://vuejs.org/js/vue.js"></script>
+  <script defer src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+
+  <script>
+    // Initialize Firebase
+    var config = {
+    apiKey: "AIzaSyBL22GcJuoLJEqDEGkngrrflv2TPFghZE4",
+    authDomain: "inventory-99296.firebaseapp.com",
+    databaseURL: "https://inventory-99296.firebaseio.com",
+    storageBucket: "",
+    };
+    firebase.initializeApp(config);
+  </script>
+
+  <script>
+    function ProxyMaker(i) {
+    i = i || 0;
+    return new Proxy({}, {
+    get(target, name) {
+    if (name !== '__proto__' && name !== 'splice') {
+    if (!target.hasOwnProperty(name) && i < 10) {
+                                            target[name] = ProxyMaker(i + 1);
+                                            }
+                                            }
+                                            return target[name];
+                                            },
+                                            set(target, name, value) {
+                                            target[name] = value;
+                                            },
+                                            });
+                                            }
+
+                                            var module = ProxyMaker();
+                                            </script>
+
+  <script type="text/x-template" id="App-template">
+
+  </script>
+
+  <script>
+    var database = firebase.database();
+
+  </script>
+
+</body>

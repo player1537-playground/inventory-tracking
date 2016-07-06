@@ -1,0 +1,40 @@
+<script>
+ function ProxyMaker(i=0) {
+     return new Proxy({}, {
+         get(target, name) {
+             if (name !== '__proto__' && name !== 'splice') {
+                 if (!target.hasOwnProperty(name) && i < 10) {
+                     target[name] = ProxyMaker(i + 1);
+                 }
+             }
+             return target[name];
+         },
+         set(target, name, value) {
+             target[name] = value;
+         },
+     });
+ }
+
+ _module = ProxyMaker();
+
+ function module(fn) {
+     var exports = {};
+     fn(exports, _module);
+
+     copy(_module, exports);
+
+     function copy(target, source) {
+         for (var key in source) {
+             if (!source.hasOwnProperty(key)) {
+                 continue;
+             }
+
+             if (typeof source[key] === 'object') {
+                 copy(target[key], source[key]);
+             } else {
+                 target[key] = source[key];
+             }
+         }
+     }
+ }
+</script>
